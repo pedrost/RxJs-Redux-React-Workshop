@@ -91,6 +91,7 @@ $button-background: #632f9f;
 $input-border-color: #282828;
 #input {
   flex-grow: 1;
+  padding: 8px;
   border: 5px solid $input-border-color;
   flex-grow: 1;
   background: $input-color;
@@ -136,6 +137,7 @@ $messages-padding-left: 12px;
     }
 
     .name {
+      padding: 0 8px;
       font-weight: 900;
     }
 

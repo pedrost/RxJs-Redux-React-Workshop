@@ -1,31 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { recieveHistory, recieveMessage } from "./../../actions/index";
 import ChatComponent from "./Chat";
+import ConfigureSocket from "./ConfigureSocket";
 
-export function ManageChat({ messages, loadMessages, ...props }) {
-  function handleChange(event) {
-    const { name, value } = event.target;
+export class ManageChat extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const { recieveHistory, recieveMessage } = this.props;
+    this.state = {
+      webSocketObservable: ConfigureSocket(recieveHistory, recieveMessage)
+    };
   }
 
-  return articles.length === 0 ? (
-    <h1>Loading</h1>
-  ) : (
-    <ChatComponent messages={messages} onChange={handleChange} />
-  );
+  render() {
+    const { messages } = this.props;
+    return messages !== undefined && messages.length === 0 ? (
+      <h1>Loading</h1>
+    ) : (
+      <ChatComponent
+        messages={messages}
+        observable={this.state.webSocketObservable}
+      />
+    );
+  }
 }
 
-ManageChatComponent.propTypes = {
-  messages: PropTypes.array.isRequired
+ManageChat.propTypes = {
+  messages: PropTypes.array,
+  recieveHistory: PropTypes.func,
+  recieveMessage: PropTypes.func
 };
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = state => {
   return {
-    messages: state.messages
+    messages: state.chatState.messages
   };
-}
+};
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = dispatch => {
+  return {
+    recieveHistory: payload => dispatch(recieveHistory(payload)),
+    recieveMessage: payload => dispatch(recieveMessage(payload))
+  };
+};
 
 export default connect(
   mapStateToProps,
