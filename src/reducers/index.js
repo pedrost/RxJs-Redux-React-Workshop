@@ -1,6 +1,6 @@
-import { chatReducer } from "./chatReducer";
 import { combineReducers } from "redux";
+import { searchReducer } from "./search";
 
-export const Reducers = combineReducers({
-  chatState: chatReducer
+export const rootReducer = combineReducers({
+  searchReducer
 });
