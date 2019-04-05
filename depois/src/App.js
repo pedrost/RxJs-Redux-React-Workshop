@@ -23,10 +23,12 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <SearchComponent
-            query={this.state.currentQuery}
-            handleChange={this.handleCurrentQuery}
-          />
+          <div className="app-container">
+            <SearchComponent
+              query={this.state.currentQuery}
+              handleChange={this.handleCurrentQuery}
+            />
+          </div>
         </div>
       </Provider>
     );
